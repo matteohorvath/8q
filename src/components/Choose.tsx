@@ -3,14 +3,16 @@
 import { GOALNUM, goals, states, goal } from "@/lib/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { Goal } from "@/app/page";
 
 export function Choose({
   setGameState,
-  setGoals,
+  addWeight,
   goals,
 }: {
   setGameState: Dispatch<SetStateAction<states>>;
-  setGoals: Dispatch<SetStateAction<goals>>;
+  addWeight: (goal: goal) => void;
+
   goals: goals;
 }) {
   const [pairs, setPairs] = useState<goal[][]>([]);
@@ -31,20 +33,15 @@ export function Choose({
       }
     }
     _pairsIndex = _pairsIndex.sort(() => Math.random() - 0.5);
-    _pairs = _pairsIndex.map((i) => _pairs[i]);
-    setPairs(_pairs);
+    const _newPairs = _pairsIndex.map((i) => _pairs[i]);
+
+    setPairs(_newPairs);
     setLoading(false);
-  }, [goals]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function addPoint(goal: goal) {
-    setGoals(
-      goals.map((g) => {
-        if (g === goal) {
-          return { ...g, weight: g.weight + 1 };
-        }
-        return g;
-      })
-    );
+    addWeight(goal);
     if (index === pairs.length - 1) {
       setGameState(states.end);
 
@@ -55,7 +52,7 @@ export function Choose({
   return loading ? (
     ""
   ) : (
-    <div className="">
+    <div className="flex flex-col">
       Choose one
       <Button onClick={() => addPoint(pairs[index][0])}>
         {pairs[index][0].goal}
@@ -63,6 +60,14 @@ export function Choose({
       <Button onClick={() => addPoint(pairs[index][1])}>
         {pairs[index][1].goal}
       </Button>
+      {goals.map((goal, i) => (
+        <Goal
+          key={i}
+          goal={goal.goal}
+          weight={goal.weight}
+          progress={goal.progress}
+        />
+      ))}
     </div>
   );
 }

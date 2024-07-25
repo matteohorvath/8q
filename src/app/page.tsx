@@ -14,6 +14,17 @@ export default function Home() {
 
   const [goals, setGoals] = useState<goals>([]);
 
+  function addWeight(goal: goal) {
+    setGoals(
+      goals.map((g) => {
+        if (g.goal === goal.goal && g.progress === goal.progress) {
+          return { ...g, weight: g.weight + 1 };
+        }
+        return g;
+      })
+    );
+  }
+
   return (
     <div className=" mt-12  flex justify-center items-center m-auto ">
       {gameState === states.start && (
@@ -33,7 +44,11 @@ export default function Home() {
         </div>
       )}
       {gameState === states.choose && (
-        <Choose setGameState={setGameState} setGoals={setGoals} goals={goals} />
+        <Choose
+          setGameState={setGameState}
+          addWeight={addWeight}
+          goals={goals}
+        />
       )}
       {gameState === states.end && (
         <div className="flex flex-col items-center">
@@ -56,7 +71,7 @@ export default function Home() {
   );
 }
 
-function Goal({ goal, weight, progress }: goal) {
+export function Goal({ goal, weight, progress }: goal) {
   return (
     <div className="flex justify-between">
       <div>{goal}</div>
