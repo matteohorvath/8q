@@ -1,6 +1,6 @@
 "use client";
 
-import { GOALNUM, goals, states, goal } from "@/app/page";
+import { GOALNUM, goals, states, goal } from "@/lib/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 

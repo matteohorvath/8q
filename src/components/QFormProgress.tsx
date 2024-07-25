@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Dispatch, SetStateAction } from "react";
-import { goals, states } from "@/app/page";
+import { goals, states } from "@/lib/types";
 
 const GOALNUM = 8;
 
@@ -64,7 +64,7 @@ export function QFormProgress({
           <FormField
             control={form.control}
             key={i}
-            name={`goal${i}` as const}
+            name={`goal${i}` as never}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{`Q${i} : ${goals[i - 1].goal}`}</FormLabel>

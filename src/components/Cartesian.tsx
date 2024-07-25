@@ -1,5 +1,5 @@
 "use client";
-import { goals, goal } from "@/app/page";
+import { goals, goal } from "@/lib/types";
 import React from "react";
 
 export type point = {

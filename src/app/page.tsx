@@ -6,77 +6,13 @@ import { Choose } from "@/components/Choose";
 import { useState } from "react";
 import Cartesian, { point } from "@/components/Cartesian";
 
-export type goal = {
-  goal: string;
-  weight: number;
-  progress: number;
-};
-
-export type goals = goal[];
-
-export enum states {
-  start = "start",
-  playing = "playing",
-  choose = "choose",
-  end = "end",
-}
-
-const dummyGoals: goals = [
-  {
-    goal: "knlkn",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "lknlk",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "nlknl",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "knlkn",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "lknlknlk",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "nlknlk",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "nlnklkn",
-    weight: 0,
-    progress: 0,
-  },
-  {
-    goal: "asdasd",
-    weight: 0,
-    progress: 0,
-  },
-];
-
-const samplePoints: point[] = [
-  { x: 2, y: 3 },
-  { x: 1, y: 4 },
-  { x: 5, y: 2 },
-  { x: 3, y: 3 },
-];
-
-export const GOALNUM = 8;
+import { goals, states, goal } from "@/lib/types";
+const GOALNUM = 8;
 
 export default function Home() {
   const [gameState, setGameState] = useState<states>(states.end);
 
-  const [goals, setGoals] = useState<goals>(dummyGoals);
+  const [goals, setGoals] = useState<goals>([]);
 
   return (
     <div className=" mt-12  flex justify-center items-center m-auto ">

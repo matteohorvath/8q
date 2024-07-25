@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Dispatch, SetStateAction } from "react";
-import { goals, states } from "@/app/page";
+import { goals, states } from "@/lib/types";
 
 const GOALNUM = 8;
 export function QForm({
@@ -28,6 +28,7 @@ export function QForm({
 }) {
   let schema = z.object({});
   let defaultValues: Record<string, string> = {};
+  type defaultValuesType = typeof defaultValues;
   for (let i = 1; i <= GOALNUM; i++) {
     schema = schema.extend({
       [`goal${i}`]: z.string().min(1).max(100),
@@ -60,7 +61,7 @@ export function QForm({
           <FormField
             control={form.control}
             key={i}
-            name={`goal${i}` as const}
+            name={`goal${i}` as never} // Update the type of the name prop to match the expected type
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{`Goal ${i}`}</FormLabel>
