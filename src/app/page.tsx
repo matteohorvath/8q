@@ -10,7 +10,7 @@ import { goals, states, goal } from "@/lib/types";
 const GOALNUM = 8;
 
 export default function Home() {
-  const [gameState, setGameState] = useState<states>(states.end);
+  const [gameState, setGameState] = useState<states>(states.start);
 
   const [goals, setGoals] = useState<goals>([]);
 
