@@ -60,14 +60,14 @@ export function Choose({
       <Button onClick={() => addPoint(pairs[index][1])}>
         {pairs[index][1].goal}
       </Button>
-      {goals.map((goal, i) => (
+      {/*goals.map((goal, i) => (
         <Goal
           key={i}
           goal={goal.goal}
           weight={goal.weight}
           progress={goal.progress}
         />
-      ))}
+      ))*/}
     </div>
   );
 }

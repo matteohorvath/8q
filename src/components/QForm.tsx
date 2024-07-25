@@ -43,7 +43,6 @@ export function QForm({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     setGameState(states.playing);
     setGoals(
       Array.from({ length: GOALNUM }, (_, i) => i + 1).map((i) => ({
