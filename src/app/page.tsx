@@ -66,7 +66,7 @@ const dummyGoals: goals = [
 
 const samplePoints: point[] = [
   { x: 2, y: 3 },
-  { x: -1, y: 4 },
+  { x: 1, y: 4 },
   { x: 5, y: 2 },
   { x: 3, y: 3 },
 ];
@@ -113,7 +113,7 @@ export default function Home() {
             ))}
           </div>
 
-          <Cartesian points={samplePoints} width={400} height={400} />
+          <Cartesian goals={goals} width={400} height={400} />
         </div>
       )}
     </div>
