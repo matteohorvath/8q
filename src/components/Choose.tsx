@@ -3,7 +3,7 @@
 import { GOALNUM, goals, states, goal } from "@/lib/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Goal } from "@/app/page";
+import Goal from "@/components/Goal";
 
 export function Choose({
   setGameState,

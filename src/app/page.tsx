@@ -7,6 +7,7 @@ import { useState } from "react";
 import Cartesian, { point } from "@/components/Cartesian";
 
 import { goals, states, goal } from "@/lib/types";
+import Goal from "@/components/Goal";
 const GOALNUM = 8;
 
 export default function Home() {
@@ -67,16 +68,6 @@ export default function Home() {
           <Cartesian goals={goals} width={400} height={400} />
         </div>
       )}
-    </div>
-  );
-}
-
-export function Goal({ goal, weight, progress }: goal) {
-  return (
-    <div className="flex justify-between">
-      <div>{goal}</div>
-      <div>{weight}</div>
-      <div>{progress}</div>
     </div>
   );
 }
