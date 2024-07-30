@@ -4,16 +4,19 @@ import { QForm } from "@/components/QForm";
 import { QFormProgress } from "@/components/QFormProgress";
 import { Choose } from "@/components/Choose";
 import { useState } from "react";
-import Cartesian, { point } from "@/components/Cartesian";
+import Cartesian, { lowerAlphabet, point } from "@/components/Cartesian";
 
 import { goals, states, goal } from "@/lib/types";
 import Goal from "@/components/Goal";
+import { dummyGoals } from "@/lib/dummyData";
 const GOALNUM = 8;
+
+const DEBUG = false;
 
 export default function Home() {
   const [gameState, setGameState] = useState<states>(states.start);
 
-  const [goals, setGoals] = useState<goals>([]);
+  const [goals, setGoals] = useState<goals>(DEBUG ? dummyGoals : []);
 
   function addWeight(goal: goal) {
     setGoals(
@@ -61,6 +64,7 @@ export default function Home() {
                 goal={goal.goal}
                 weight={goal.weight}
                 progress={goal.progress}
+                label={lowerAlphabet[i]}
               />
             ))}
           </div>

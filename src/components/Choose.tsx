@@ -18,6 +18,7 @@ export function Choose({
   const [pairs, setPairs] = useState<goal[][]>([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [reverse, setReverse] = useState(false);
   //shuffle array of pairs
 
   useEffect(() => {
@@ -40,6 +41,15 @@ export function Choose({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    //50 50 chance to reverse the order of the pairs
+    if (Math.random() > 0.5) {
+      setReverse(true);
+    } else {
+      setReverse(false);
+    }
+  }, [index]);
+
   function addPoint(goal: goal) {
     addWeight(goal);
     if (index === pairs.length - 1) {
@@ -54,20 +64,23 @@ export function Choose({
   ) : (
     <div className="flex flex-col">
       Choose one
-      <Button onClick={() => addPoint(pairs[index][0])}>
-        {pairs[index][0].goal}
-      </Button>
+      {reverse ? (
+        <Button onClick={() => addPoint(pairs[index][0])}>
+          {pairs[index][0].goal}
+        </Button>
+      ) : (
+        ""
+      )}
       <Button onClick={() => addPoint(pairs[index][1])}>
         {pairs[index][1].goal}
       </Button>
-      {/*goals.map((goal, i) => (
-        <Goal
-          key={i}
-          goal={goal.goal}
-          weight={goal.weight}
-          progress={goal.progress}
-        />
-      ))*/}
+      {reverse ? (
+        ""
+      ) : (
+        <Button onClick={() => addPoint(pairs[index][0])}>
+          {pairs[index][0].goal}
+        </Button>
+      )}
     </div>
   );
 }

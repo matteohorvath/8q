@@ -1,12 +1,18 @@
 "use client";
 import { goals, goal } from "@/lib/types";
-import React from "react";
+import React, { useEffect } from "react";
 
 export type point = {
   x: number;
   y: number;
 };
 
+type dupGoal = {
+  x: number;
+  y: number;
+  goals: goal[];
+  indexes: number[];
+};
 export const lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
 
 const Cartesian = ({
@@ -151,44 +157,71 @@ function GoalPoints({
   xScale,
   yScale,
 }: {
-  goals: goals;
+  goals: goal[];
   yAxis: number;
   xAxis: number;
   xScale: number;
   yScale: number;
 }) {
-  const transformPoint = (goal: goal) => ({
-    x: yAxis + goal.progress * xScale,
-    y: xAxis - goal.weight * yScale,
-  });
+  const [dupGoals, setDupGoals] = React.useState<dupGoal[]>([]);
 
-  //todo apply logic if points are the same.
-  const sameGoalPosition = ({ goal, _goal }: { goal: goal; _goal: goal }) => {
+  const transformPoint = (goal: dupGoal) => {
+    let label = "";
+    for (let i = 0; i < goal.indexes.length; i++) {
+      label += lowerAlphabet[goal.indexes[i]] + ",";
+    }
+    label = label.slice(0, -1);
+    return {
+      x: yAxis + goal.x * xScale,
+      y: xAxis - goal.y * yScale,
+      label: label,
+    };
+  };
+
+  function sameGoalPosition({ goal, _goal }: { goal: goal; _goal: goal }) {
     if (goal.weight === _goal.weight && goal.progress === _goal.progress) {
       return true;
     }
     return false;
-  };
-  const duplicatedGoals = (goals: goals) => {
-    for (let i = 0; i < goals.length; i++) {
-      for (let j = i + 1; j < goals.length; j++) {
-        if (sameGoalPosition({ goal: goals[i], _goal: goals[j] })) {
-          return true;
+  }
+
+  useEffect(() => {
+    function transformPointsToDuplicatedGoals(goals: goals) {
+      //create buckets for the goals so duplicated will be in the same bucket
+      let dupGoals: dupGoal[] = [];
+      for (let i = 0; i < goals.length; i++) {
+        let found = false;
+        for (let j = 0; j < dupGoals.length; j++) {
+          if (
+            sameGoalPosition({ goal: goals[i], _goal: dupGoals[j].goals[0] })
+          ) {
+            dupGoals[j].goals.push(goals[i]);
+            dupGoals[j].indexes.push(i);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          dupGoals.push({
+            x: goals[i].progress,
+            y: goals[i].weight,
+            goals: [goals[i]],
+            indexes: [i],
+          });
         }
       }
-    }
-  };
 
-  return goals.map((goal, index) => {
-    const { x, y } = transformPoint(goal);
+      return dupGoals;
+    }
+    setDupGoals(transformPointsToDuplicatedGoals(goals));
+  }, [goals]);
+
+  return dupGoals.map((goal, index) => {
+    const { x, y, label } = transformPoint(goal);
     return (
       <g key={index}>
         <circle cx={x} cy={y} r="4" fill="red" />
-        <text
-          x={x + 5}
-          y={y - 5}
-          fontSize="12"
-        >{`(${lowerAlphabet[index]})`}</text>
+        <text x={x + 5} y={y - 5} fontSize="12">{`(${label})`}</text>
       </g>
     );
   });
